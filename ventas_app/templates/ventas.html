@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Registro de Ventas</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="mes" placeholder="Mes (ej: Enero)" required>
+        <input type="number" name="venta" placeholder="Monto de venta" required>
+        <button type="submit">Añadir</button>
+    </form>
+
+    <div class="chart-container">
+        <canvas id="ventasChart"></canvas>
+    </div>
+
+    <h2>Datos Registrados</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Mes</th>
+            <th>Venta</th>
+            <th>Fecha Creación</th>
+        </tr>
+        {% for venta in ventas %}
+        <tr>
+            <td>{{ venta.id }}</td>
+            <td>{{ venta.mes }}</td>
+            <td>{{ venta.venta }}</td>
+            <td>{{ venta.fecha_creacion }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        const ctx = document.getElementById('ventasChart').getContext('2d');
+        const ventasChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ meses|safe }},
+                datasets: [{
+                    label: 'Ventas por Mes',
+                    data: {{ valores|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}
