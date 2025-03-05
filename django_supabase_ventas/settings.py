@@ -13,8 +13,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from supabase import create_client, Client
+import logging
 
-
+# Configurar logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -58,7 +61,12 @@ ROOT_URLCONF = 'django_supabase_ventas.urls'
 # Configuración de Supabase
 SUPABASE_URL = "https://gifbsjzqqgjpeladgkku.supabase.co"  # Obtén esto desde Supabase dashboard
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpZmJzanpxcWdqcGVsYWRna2t1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMTE3MTMsImV4cCI6MjA1NjY4NzcxM30.5wv2vKR-5KazEU68fUYVCf5gBs1KYmUF055MVqTWLME"  # Obtén esto desde Supabase dashboard
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+try:
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    logger.info("Conexión a Supabase exitosa")
+except Exception as e:
+    logger.error(f"Error al conectar con Supabase: {str(e)}")
+    raise
 
 
 TEMPLATES = [
