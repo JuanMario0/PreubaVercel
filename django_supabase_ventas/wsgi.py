@@ -1,16 +1,12 @@
-"""
-WSGI config for django_supabase_ventas project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
-"""
-
+# django_supabase_ventas/wsgi.py
 import os
-
 from django.core.wsgi import get_wsgi_application
 
+# Configurar el módulo de settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_supabase_ventas.settings')
 
+# Obtener la aplicación WSGI de Django
 application = get_wsgi_application()
+
+# Definir `app` para que Vercel lo reconozca
+app = application
